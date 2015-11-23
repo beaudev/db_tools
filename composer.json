@@ -1,0 +1,12 @@
+{
+  "name": "beaudev/db_tools",
+  "description": "some db useful script",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jean-Christophe Meillaud",
+      "email": "jc@houseofagile.com"
+    }
+  ]
+}
