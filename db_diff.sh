@@ -1,6 +1,10 @@
 #!/bin/bash
 
 function db_diff() {
+	timestamp=`date +%s`
+	result_path="/tmp/result_$timestamp"
+	mkdir -p $result_path
+	
     dump () {
       up=${1%%@*}; user=${up%%:*}; pass=${up##*:}; dbname=${1##*@};
       mysqldump --opt --compact --skip-extended-insert -u $user -p$pass $dbname $table > $2
@@ -18,12 +22,12 @@ function db_diff() {
         db2file=$(mktemp /tmp/db2.$table.XXXXXX.sql)
         dump $1 $db1file
         dump $2 $db2file
-        diff -up $db1file $db2file >> $(mktemp /tmp/result.$table.XXXXXX.sql)
+        diff -up $db1file $db2file >> $(mktemp $result_path/diff.$table.XXXXXX.diff)
         rm -f $db1file $db2file
       else
         echo "Ignored '$table'..."
       fi
     done
-    echo "check results by reading /tmp/result.* files"
+    echo "check results by reading $result_path/diff.* files"
 }
 
